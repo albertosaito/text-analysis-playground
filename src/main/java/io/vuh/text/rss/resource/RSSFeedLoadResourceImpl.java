@@ -26,9 +26,9 @@ public class RSSFeedLoadResourceImpl implements RSSFeedLoadResource {
      * String)
      */
     @Override
-    public LoadRSSResponse loadRSSFeed(final String url) {
-	logger.info("called loadRSSFeed with " + url);
-	final LoadRSSResponse response = rssArticleManager.loadRSSFeed(url);
+    public LoadRSSResponse loadRSSFeed(final String[] url) {
+	logger.info("called loadRSSFeed with " + url[0]);
+	final LoadRSSResponse response = rssArticleManager.loadRSSFeed(url[0]);
 	return response;
 
     }

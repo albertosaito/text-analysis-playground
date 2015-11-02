@@ -14,6 +14,6 @@ public interface RSSFeedLoadResource {
 
     @POST
     @Path("rss")
-    public LoadRSSResponse loadRSSFeed(String url);
+    public LoadRSSResponse loadRSSFeed(String[] url);
 
 }
