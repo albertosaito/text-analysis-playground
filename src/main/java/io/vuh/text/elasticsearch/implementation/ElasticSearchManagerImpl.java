@@ -1,5 +1,7 @@
 package io.vuh.text.elasticsearch.implementation;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -8,6 +10,7 @@ import org.apache.log4j.Logger;
 import io.vuh.text.elasticsearch.ElasticSearchClient;
 import io.vuh.text.elasticsearch.ElasticSearchManager;
 import io.vuh.text.persistence.ArticleManager;
+import io.vuh.text.persistence.model.Article;
 
 /**
  * Implements {@link ElasticSearchManager}
@@ -37,7 +40,10 @@ public class ElasticSearchManagerImpl implements ElasticSearchManager {
 	 */
 	@Override
 	public void pushAllArticles() {
-		articleManager.getAllArticles().subscribe(article -> new Thread(() -> client.postArticle(article)));
+		logger.info("Calling pushAllArticles");
+		final List<Article> articles = articleManager.getAllArticles();
+		logger.info("Size: "+articles.size());
+		articles.parallelStream().forEach(article -> client.postArticle(article));
 	}
 
 	/*

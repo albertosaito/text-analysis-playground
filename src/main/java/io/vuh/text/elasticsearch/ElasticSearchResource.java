@@ -1,6 +1,7 @@
 package io.vuh.text.elasticsearch;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,8 +15,8 @@ import io.vuh.text.persistence.model.Article;
  *
  */
 @Path("/v1/")
-@Consumes({ "application/xml", "application/json" })
-@Produces({ "application/xml", "application/json" })
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
 public interface ElasticSearchResource {
 
 	/**
@@ -28,4 +29,8 @@ public interface ElasticSearchResource {
 	@POST
 	@Path("articles")
 	public void pushArticleById(String id);
+	
+	@GET
+	@Path("articles")
+	public void pushAllArticles();
 }

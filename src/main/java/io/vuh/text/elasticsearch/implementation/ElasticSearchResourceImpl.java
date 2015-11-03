@@ -27,4 +27,8 @@ public class ElasticSearchResourceImpl implements ElasticSearchResource {
 	public void pushArticleById(String id) {
 		elasticSearchManager.pushArticleById(id);
 	}
+	
+	public void pushAllArticles() {
+		elasticSearchManager.pushAllArticles();
+	}
 }

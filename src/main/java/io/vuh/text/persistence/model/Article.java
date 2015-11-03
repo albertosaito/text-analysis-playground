@@ -20,77 +20,77 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Article")
-@NamedQueries({ @NamedQuery(name = "Article.getAllArticles", query = "SELECT a FROM Article a") })
+@NamedQueries({ @NamedQuery(name = "Article.getAllArticles", query = "SELECT a FROM Article as a") })
 public class Article implements Serializable {
 
-    private static final long serialVersionUID = 1308923780846174471L;
+	private static final long serialVersionUID = 1308923780846174471L;
 
-    @Column(name = "id")
-    @Id
-    private String id;
+	@Column(name = "id")
+	@Id
+	private String id;
 
-    @Column(name = "title")
-    private String title;
+	@Column(name = "title", columnDefinition = "TEXT")
+	private String title;
 
-    @Column(name = "source")
-    private String source;
+	@Column(name = "source", columnDefinition = "TEXT")
+	private String source;
 
-    @Column(name = "text", columnDefinition = "TEXT")
-    private String text;
+	@Column(name = "text", columnDefinition = "TEXT")
+	private String text;
 
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+	@Column(name = "date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
 
-    @Column(name = "url")
-    private String url;
+	@Column(name = "url", columnDefinition = "TEXT")
+	private String url;
 
-    public Date getDate() {
-	return date;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public String getId() {
-	return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getSource() {
-	return source;
-    }
+	public String getSource() {
+		return source;
+	}
 
-    public String getText() {
-	return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public String getTitle() {
-	return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setDate(final Date value) {
-	date = value;
-    }
+	public void setDate(final Date value) {
+		date = value;
+	}
 
-    public void setId(final String value) {
-	id = value;
-    }
+	public void setId(final String value) {
+		id = value;
+	}
 
-    public void setSource(final String value) {
-	source = value;
-    }
+	public void setSource(final String value) {
+		source = value;
+	}
 
-    public void setText(final String value) {
-	text = value;
-    }
+	public void setText(final String value) {
+		text = value;
+	}
 
-    public void setTitle(final String value) {
-	title = value;
-    }
+	public void setTitle(final String value) {
+		title = value;
+	}
 
-    public void setUrl(final String value) {
-	url = value;
-    }
+	public void setUrl(final String value) {
+		url = value;
+	}
 
 }

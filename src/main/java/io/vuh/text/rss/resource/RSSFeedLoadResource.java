@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
 
 @Path("/v1/")
-@Consumes({ "application/xml", "application/json" })
-@Produces({ "application/xml", "application/json" })
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
 public interface RSSFeedLoadResource {
 
     @POST

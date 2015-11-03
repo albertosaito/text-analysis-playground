@@ -1,5 +1,7 @@
 package io.vuh.text.persistence;
 
+import java.util.List;
+
 import io.vuh.text.persistence.model.Article;
 import rx.Observable;
 
@@ -32,5 +34,5 @@ public interface ArticleManager {
 	 * 
 	 * @return RxJava's {@link Article} Observable
 	 */
-	Observable<Article> getAllArticles();
+	List<Article> getAllArticles() ;
 }

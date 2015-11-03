@@ -5,6 +5,8 @@
  */
 package io.vuh.text.persistence;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,39 +25,39 @@ import rx.Observable;
 @Stateless
 public class ArticleManagerImpl implements ArticleManager {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * io.vuh.text.model.ArticleManager#createArticle(io.vuh.text.model.Article)
-     */
-    @Override
-    public void createArticle(final Article article) {
-	entityManager.persist(article);
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * io.vuh.text.model.ArticleManager#createArticle(io.vuh.text.model.Article)
+	 */
+	@Override
+	public void createArticle(final Article article) {
+		entityManager.persist(article);
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see io.vuh.text.model.ArticleManager#getAllArticles()
-     */
-    @Override
-    public Observable<Article> getAllArticles() {
-	return Observable.from(entityManager.createNamedQuery("Article.getAllArticles", Article.class).getResultList());
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see io.vuh.text.model.ArticleManager#getAllArticles()
+	 */
+	@Override
+	public List<Article> getAllArticles() {
+		return entityManager.createNamedQuery("Article.getAllArticles", Article.class).getResultList();
+	}
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see io.vuh.text.model.ArticleManager#getArticleById(java.lang.String)
-     */
-    @Override
-    public Observable<Article> getArticleById(final String id) {
-	return Observable.just(entityManager.find(Article.class, id));
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see io.vuh.text.model.ArticleManager#getArticleById(java.lang.String)
+	 */
+	@Override
+	public Observable<Article> getArticleById(final String id) {
+		return Observable.just(entityManager.find(Article.class, id));
+	}
 
 }

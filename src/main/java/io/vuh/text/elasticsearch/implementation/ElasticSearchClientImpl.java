@@ -42,6 +42,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
 	@Override
 	public void postArticle(Article article) {
 		try {
+			logger.info("postArticle article "+article.getId());
 			byte[] json = objectMapper.writeValueAsBytes(article);
 			client.prepareIndex("articles", "article", article.getId()).setSource(json).execute().actionGet();
 		} catch (JsonProcessingException e) {
