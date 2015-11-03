@@ -42,7 +42,7 @@ public class RSSArticleReaderImpl implements RSSArticleReader {
 				logger.debug("TEXT: " + text);
 			});
 		} catch (final IOException ioe) {
-			ioe.printStackTrace();
+			logger.error(ioe.getMessage(), ioe);
 			throw new RuntimeException();
 		}
 		result.setTitle(s.getTitle());
@@ -70,7 +70,7 @@ public class RSSArticleReaderImpl implements RSSArticleReader {
 				}).subscribeOn(Schedulers.newThread());
 			});
 		} catch (final Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 

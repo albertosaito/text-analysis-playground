@@ -2,6 +2,8 @@ package io.vuh.text.elasticsearch;
 
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+
 import io.vuh.text.persistence.model.Article;
 
 /**
@@ -11,20 +13,8 @@ import io.vuh.text.persistence.model.Article;
  *
  */
 public interface ElasticSearchManager {
-    /**
-     * Will push all the available articles in the the persistence layer to the
-     * ElasticSearch server.
-     */
-    void pushAllArticles();
-
-    /**
-     * Will push a specific article in the persistence layer to the
-     * ElasticSearch server.
-     * 
-     * @param id
-     *            of the article
-     */
-    void pushArticleById(String id);
 
     List<Article> search(String queryString);
+    
+    void eventHandler(@Observes Article article);
 }

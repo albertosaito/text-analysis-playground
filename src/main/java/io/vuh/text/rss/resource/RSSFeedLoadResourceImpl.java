@@ -1,11 +1,15 @@
 package io.vuh.text.rss.resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
 import io.vuh.text.rss.manager.RSSArticleManager;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
+import rx.Observable;
 
 /**
  * @author nobuji.saito
@@ -26,9 +30,13 @@ public class RSSFeedLoadResourceImpl implements RSSFeedLoadResource {
 	 * String)
 	 */
 	@Override
-	public LoadRSSResponse loadRSSFeed(final String[] url) {
-		logger.info("called loadRSSFeed with " + url[0]);
-		return rssArticleManager.loadRSSFeed(url[0]);
+	public List<LoadRSSResponse> loadRSSFeed(final String[] url) {
+		if(url == null)throw new IllegalArgumentException("The url list is null");
+		logger.info("Called loadRSSFeed with "+url.length+" elements");
+		final List<LoadRSSResponse> responses = new ArrayList<>(url.length);
+		//We can call this async to speed up the response
+		Observable.from(url).toBlocking().forEach(u -> {responses.add(rssArticleManager.loadRSSFeed(u));});
+		return responses;
 	}
 
 }

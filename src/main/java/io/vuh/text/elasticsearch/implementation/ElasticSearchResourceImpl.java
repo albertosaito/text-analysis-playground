@@ -16,29 +16,12 @@ import io.vuh.text.persistence.model.Article;
  */
 public class ElasticSearchResourceImpl implements ElasticSearchResource {
 
-    @Inject
-    private ElasticSearchManager elasticSearchManager;
+	@Inject
+	private ElasticSearchManager elasticSearchManager;
 
-    @Override
-    public void pushAllArticles() {
-	elasticSearchManager.pushAllArticles();
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * io.vuh.text.elasticsearch.ElasticSearchResource#pushArticleById(java.lang
-     * .String)
-     */
-    @Override
-    public void pushArticleById(final String id) {
-	elasticSearchManager.pushArticleById(id);
-    }
-
-    @Override
-    public List<Article> search(final String queryString) {
-	return elasticSearchManager.search(queryString);
-
-    }
+	@Override
+	public List<Article> search(final String queryString) {
+		return elasticSearchManager.search(queryString);
+	}
 }

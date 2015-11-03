@@ -1,12 +1,10 @@
 package io.vuh.text.rss.manager;
 
-import java.net.MalformedURLException;
-
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import io.vuh.text.persistence.ArticleManager;
 import io.vuh.text.persistence.model.Article;
 import io.vuh.text.rss.RSSArticleReader;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
@@ -18,11 +16,11 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 	private RSSArticleReader rssArticleReader;
 
 	@Inject
-	private ArticleManager articleManager;
-
-	@Inject
 	private Logger log;
 
+	@Inject
+	private Event<Article> articleEvent;
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -34,13 +32,13 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 		final LoadRSSResponse response = new LoadRSSResponse();
 
 		try {
+			//we need the time? or can be async to improve velocity?
 			final long startTime = System.nanoTime();
 			log.info("In loadRSSFeed");
 			final Observable<Article> results = rssArticleReader.loadArticles(url);
-
+			
 			results.toBlocking().forEach(article -> {
-				articleManager.createArticle(article);
-				log.debug(article.getText());
+				articleEvent.fire(article);
 				response.setLoadedArticles(response.getLoadedArticles() + 1);
 			});
 
@@ -48,12 +46,11 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 			final double timeElapsed = (double) endTime / 1000000000;
 			log.info("Load finished in " + timeElapsed + " seconds");
 			response.setTimeElapsed(timeElapsed);
-		} catch (final MalformedURLException e) {
-			e.printStackTrace();
+		} catch (final Exception e) {
+			log.error(e.getMessage(), e);
 		}
 
 		return response;
-
 	}
 
 }

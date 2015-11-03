@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -12,7 +13,6 @@ import org.elasticsearch.search.SearchHits;
 
 import io.vuh.text.elasticsearch.ElasticSearchClient;
 import io.vuh.text.elasticsearch.ElasticSearchManager;
-import io.vuh.text.persistence.ArticleManager;
 import io.vuh.text.persistence.model.Article;
 
 /**
@@ -27,58 +27,31 @@ import io.vuh.text.persistence.model.Article;
 @Stateless
 public class ElasticSearchManagerImpl implements ElasticSearchManager {
 
-    @Inject
-    private Logger logger;
+	@Inject
+	private Logger logger;
 
-    @Inject
-    private ArticleManager articleManager;
+	@Inject
+	private ElasticSearchClient client;
 
-    @Inject
-    private ElasticSearchClient client;
+	public void eventHandler(@Observes Article article) {
+		logger.info("Invoking article event with id " + article.getId());
+		client.postArticle(article);
+	}
 
-    private Article createArticleFromHit(final SearchHit hit) {
-	final Article article = new Article();
-	article.setId(hit.getSource().get("id").toString());
-	article.setTitle(hit.getSource().get("title").toString());
-	article.setUrl(hit.getSource().get("url").toString());
-	return article;
 
-    }
+	@Override
+	public List<Article> search(final String queryString) {
+		final SearchHits results = client.search(queryString);
+		final List<Article> list = new ArrayList<>();
+		results.forEach(hit -> list.add(createArticleFromHit(hit)));
+		return list;
+	}
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see io.vuh.text.elasticsearch.ElasticSearchController#pushAllArticles()
-     */
-    @Override
-    public void pushAllArticles() {
-	logger.info("Calling pushAllArticles");
-	final List<Article> articles = articleManager.getAllArticles();
-	logger.info("Size: " + articles.size());
-	articles.parallelStream().forEach(article -> client.postArticle(article));
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * io.vuh.text.elasticsearch.ElasticSearchController#pushArticleById(java.
-     * lang.String)
-     */
-    @Override
-    public void pushArticleById(final String id) {
-	articleManager.getArticleById(id).subscribe(client::postArticle);
-    }
-
-    @Override
-    public List<Article> search(final String queryString) {
-
-	final SearchHits results = client.search(queryString);
-	final List<Article> list = new ArrayList<>();
-
-	results.forEach(hit -> list.add(createArticleFromHit(hit)));
-	return list;
-
-    }
-
+	private Article createArticleFromHit(final SearchHit hit) {
+		final Article article = new Article();
+		article.setId(hit.getSource().get("id").toString());
+		article.setTitle(hit.getSource().get("title").toString());
+		article.setUrl(hit.getSource().get("url").toString());
+		return article;
+	}
 }

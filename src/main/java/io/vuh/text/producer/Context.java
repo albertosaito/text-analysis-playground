@@ -1,4 +1,4 @@
-package io.vuh.text.logging;
+package io.vuh.text.producer;
 
 import java.net.InetSocketAddress;
 
