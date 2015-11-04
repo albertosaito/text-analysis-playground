@@ -32,20 +32,14 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 		final LoadRSSResponse response = new LoadRSSResponse();
 
 		try {
-			//we need the time? or can be async to improve velocity?
-			final long startTime = System.nanoTime();
 			log.info("In loadRSSFeed");
 			final Observable<Article> results = rssArticleReader.loadArticles(url);
 			
 			results.toBlocking().forEach(article -> {
 				articleEvent.fire(article);
-				response.setLoadedArticles(response.getLoadedArticles() + 1);
 			});
 
-			final long endTime = System.nanoTime() - startTime;
-			final double timeElapsed = (double) endTime / 1000000000;
-			log.info("Load finished in " + timeElapsed + " seconds");
-			response.setTimeElapsed(timeElapsed);
+			log.info("Load finished");
 		} catch (final Exception e) {
 			log.error(e.getMessage(), e);
 		}

@@ -2,10 +2,14 @@ package io.vuh.text.rss;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import rx.Observable;
+import de.l3s.boilerpipe.extractors.ArticleExtractor;
+import rx.Observable;;
 
 /**
  * @author nobuji.saito
@@ -13,6 +17,9 @@ import rx.Observable;
  */
 public class NewsContentScrapperDefaultImpl implements NewsContentScrapper {
 
+	@Inject
+	private Logger logger;
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -20,8 +27,12 @@ public class NewsContentScrapperDefaultImpl implements NewsContentScrapper {
 	 */
 	@Override
 	public Observable<String> getNewsContent(final String url) throws IOException {
-		final Document doc = Jsoup.connect(url).get();
-		return Observable.just(Jsoup.parse(doc.text()).text());
+		try {
+			final Document doc = Jsoup.connect(url).get();
+			return  Observable.just(ArticleExtractor.INSTANCE.getText(doc.html()));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
 	}
-
 }

@@ -34,7 +34,9 @@ public class RSSArticleReaderImpl implements RSSArticleReader {
 		result.setDate(s.getPublishedDate());
 		result.setId(Integer.toString(s.getUri().hashCode()));
 		result.setSource(source);
-
+		result.setTitle(s.getTitle());
+		result.setUrl(s.getLink());
+		
 		logger.debug("LINK: " + s.getLink());
 		try {
 			newsContentScrapper.getNewsContent(s.getLink()).subscribe(text -> {
@@ -45,8 +47,7 @@ public class RSSArticleReaderImpl implements RSSArticleReader {
 			logger.error(ioe.getMessage(), ioe);
 			throw new RuntimeException();
 		}
-		result.setTitle(s.getTitle());
-		result.setUrl(s.getLink());
+
 		return Observable.just(result);
 	}
 
@@ -64,6 +65,7 @@ public class RSSArticleReaderImpl implements RSSArticleReader {
 		final SyndFeedInput input = new SyndFeedInput();
 		try {
 			final SyndFeed feed = input.build(new XmlReader(url));
+			
 			return Observable.from(feed.getEntries()).flatMap(entry -> {
 				return Observable.defer(() -> {
 					return createArticle(entry, feed.getDescription());
