@@ -18,9 +18,23 @@
 		<jsoup.version>1.8.3</jsoup.version>
 		<swarm.launcher.version>1.0.0-SNAPSHOT</swarm.launcher.version>
 		<wilfy.swarm.version>1.0.0.Alpha5</wilfy.swarm.version>
+		<syring.version>1.0.0-SNAPSHOT</syring.version>
+		<ignite.version>1.4.0</ignite.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.rage</groupId>
+			<artifactId>syring</artifactId>
+			<version>${syring.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.rage</groupId>
 			<artifactId>swarm-launcher</artifactId>
@@ -102,6 +116,31 @@
 			<artifactId>easymock</artifactId>
 			<version>3.4</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Ignite -->
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-core</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-indexing</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-log4j</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-spring</artifactId>
+			<version>${ignite.version}</version>
 		</dependency>
 
 	</dependencies>

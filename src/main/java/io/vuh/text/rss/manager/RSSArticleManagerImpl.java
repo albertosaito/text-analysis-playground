@@ -5,6 +5,9 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
+import io.vuh.text.cache.IgniteDelegate;
 import io.vuh.text.persistence.model.Article;
 import io.vuh.text.rss.RSSArticleReader;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
@@ -21,6 +24,11 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 	@Inject
 	private Event<Article> articleEvent;
 	
+	@Inject 
+	private IgniteDelegate igniteDelegate;
+	
+	private final Gson gson = new Gson();
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -36,6 +44,7 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 			final Observable<Article> results = rssArticleReader.loadArticles(url);
 			
 			results.toBlocking().forEach(article -> {
+				igniteDelegate.saveArticle(article.getId(), gson.toJson(article));
 				articleEvent.fire(article);
 			});
 

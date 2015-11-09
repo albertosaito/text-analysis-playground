@@ -1,7 +1,16 @@
 {
 	"package":"io.vuh.text",
 	"systemProperties":{
-		"ELASTICSEARCH_IP":"localhost"
+		"ELASTICSEARCH_IP":"localhost",
+		"ignite.deployment.mode":"CONTINUOUS",
+		"ignite.grid.name":"search-client",
+		"IGNITE_HOME":"C:\apps\jboss",
+		"ignite.log.metrics.frequency":"1800000",
+		"ignite.multicast.address":"228.1.2.4",
+		"ignite.multicast.port":"47400",
+		"ignite.peerclassloading.enabled":"true",
+		"IGNITE_PERFORMANCE_SUGGESTIONS_DISABLED":"true",
+		"ignite.serializable.required":"false"
 	},
 	"resources":[
 		{
