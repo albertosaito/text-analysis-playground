@@ -3,8 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.vuh.text</groupId>
 	<artifactId>text-analysis-playground</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+
+	<version>0.0.2-SNAPSHOT</version>
+
+	<packaging>jar</packaging>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -14,9 +16,17 @@
 		<elasticsearch.version>2.0.0</elasticsearch.version>
 		<rxjava.core.version>0.20.7</rxjava.core.version>
 		<jsoup.version>1.8.3</jsoup.version>
+		<swarm.launcher.version>1.0.0-SNAPSHOT</swarm.launcher.version>
+		<wilfy.swarm.version>1.0.0.Alpha5</wilfy.swarm.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.rage</groupId>
+			<artifactId>swarm-launcher</artifactId>
+			<version>${swarm.launcher.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -34,20 +44,6 @@
 			<groupId>com.netflix.rxjava</groupId>
 			<artifactId>rxjava-core</artifactId>
 			<version>${rxjava.core.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>3.4</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -94,9 +90,23 @@
 			<version>1.9.13</version>
 		</dependency>
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.4</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
-	<!--   Review if this is in the public maven or do a fork.-->
+	<!-- Review if this is in the public maven or do a fork. -->
 	<repositories>
 		<repository>
 			<id>boilerpipe-m2-repo</id>
@@ -105,13 +115,16 @@
 	</repositories>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -123,12 +136,19 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<groupId>org.wildfly.swarm</groupId>
+				<artifactId>wildfly-swarm-plugin</artifactId>
+				<version>${wilfy.swarm.version}</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<mainClass>org.rage.swarm.launcher.Main</mainClass>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

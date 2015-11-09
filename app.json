@@ -1,0 +1,12 @@
+{
+	"package":"io.vuh.text",
+	"systemProperties":{
+		"ELASTICSEARCH_IP":"localhost"
+	},
+	"resources":[
+		{
+			"resourceName":"META-INF/beans.xml",
+			"targetPath":"classes/META-INF/beans.xml"
+		}
+	]
+}
