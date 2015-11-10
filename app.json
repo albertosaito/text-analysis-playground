@@ -10,7 +10,8 @@
 		"ignite.multicast.port":"47400",
 		"ignite.peerclassloading.enabled":"true",
 		"IGNITE_PERFORMANCE_SUGGESTIONS_DISABLED":"true",
-		"ignite.serializable.required":"false"
+		"ignite.serializable.required":"false",
+		"ignite.enabled":"false"
 	},
 	"resources":[
 		{

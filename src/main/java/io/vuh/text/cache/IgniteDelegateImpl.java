@@ -55,16 +55,22 @@ public class IgniteDelegateImpl implements IgniteDelegate {
 	@Inject
 	@ApplicationProperty(name = "ignite.serializable.required", type = ApplicationProperty.Types.SYSTEM)
 	private String requiredSerializable;
+	@Inject
+	@ApplicationProperty(name = "ignite.enabled", type = ApplicationProperty.Types.SYSTEM)
+	private String enableIgnite;
 
 	@PostConstruct
 	public void connect() {
 		log.info("<<<Starting ignite....>>> ");
-		igniteInstance = Ignition.start(createIgniteConfiguration());
+		if(isIgniteEnabled()){
+			igniteInstance = Ignition.start(createIgniteConfiguration());
+		}
 		log.info("<<<Finish>>>");
 	}
 
 	@PreDestroy
 	public void shutdown() {
+		if(!isIgniteEnabled())return;
 		try {
 			igniteInstance.close();
 		} catch (Exception e) {
@@ -120,11 +126,13 @@ public class IgniteDelegateImpl implements IgniteDelegate {
 
 	@Override
 	public String getArticle(String key) {
+		if(!isIgniteEnabled())return null;
 		return getOrCreateArticleCache().get(key);
 	}
 
 	@Override
 	public void saveArticle(String key, String articleJson) {
+		if(!isIgniteEnabled())return;
 		log.info("Inserting with key "+key);
 		getArticleDataStreamer().addData(key, articleJson);
 		getArticleDataStreamer().flush();
@@ -143,6 +151,10 @@ public class IgniteDelegateImpl implements IgniteDelegate {
 	public IgniteDataStreamer<String, String> getArticleDataStreamer() {
 		getOrCreateArticleCache();
 		return igniteInstance.dataStreamer("articles");
+	}
+	
+	private boolean isIgniteEnabled(){
+		return "TRUE".equalsIgnoreCase(enableIgnite);
 	}
 
 }
