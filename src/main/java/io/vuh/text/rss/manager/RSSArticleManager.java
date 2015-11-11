@@ -15,6 +15,9 @@ public interface RSSArticleManager {
      */
     LoadRSSResponse loadRSSFeed(String url);
 
-	void loadScheduledRSSFeeds(RSSFeedList list);
+    /**
+     * @param list
+     */
+    void loadScheduledRSSFeeds(RSSFeedList list);
 
 }

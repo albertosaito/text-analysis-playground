@@ -15,6 +15,10 @@ import io.vuh.text.rss.model.RSSFeedList;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
 import rx.Observable;
 
+/**
+ * @author asaito
+ *
+ */
 public class RSSArticleManagerImpl implements RSSArticleManager {
 
 	@Inject
@@ -58,10 +62,13 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 		return response;
 	}
 	
+	/* (non-Javadoc)
+	 * @see io.vuh.text.rss.manager.RSSArticleManager#loadScheduledRSSFeeds(io.vuh.text.rss.model.RSSFeedList)
+	 */
 	@Override
 	public void loadScheduledRSSFeeds(@Observes RSSFeedList list) {
 		System.out.println("Loading lists");
-		list.getUrls().forEach(url -> loadRSSFeed(url));
+		list.getUrls().parallelStream().forEach(url -> loadRSSFeed(url));
 	}
 
 }
