@@ -16,7 +16,7 @@
 		<elasticsearch.version>2.0.0</elasticsearch.version>
 		<rxjava.core.version>0.20.7</rxjava.core.version>
 		<jsoup.version>1.8.3</jsoup.version>
-		<swarm.launcher.version>1.0.0-SNAPSHOT</swarm.launcher.version>
+		<zeppelin.version>1.0.0-SNAPSHOT</zeppelin.version>
 		<wilfy.swarm.version>1.0.0.Alpha5</wilfy.swarm.version>
 		<syring.version>1.0.0-SNAPSHOT</syring.version>
 		<ignite.version>1.4.0</ignite.version>
@@ -37,8 +37,8 @@
 
 		<dependency>
 			<groupId>org.rage</groupId>
-			<artifactId>swarm-launcher</artifactId>
-			<version>${swarm.launcher.version}</version>
+			<artifactId>zeppelin</artifactId>
+			<version>${zeppelin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -179,7 +179,7 @@
 				<artifactId>wildfly-swarm-plugin</artifactId>
 				<version>${wilfy.swarm.version}</version>
 				<configuration>
-					<mainClass>org.rage.swarm.launcher.Main</mainClass>
+					<mainClass>org.rage.zeppelin.launcher.Main</mainClass>
 				</configuration>
 				<executions>
 					<execution>
