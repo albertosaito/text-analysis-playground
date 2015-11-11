@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class Context {
-	final TransportClient client = new TransportClient.Builder().build().addTransportAddress(
+	final Client client = new TransportClient.Builder().build().addTransportAddress(
 			new InetSocketTransportAddress(new InetSocketAddress(System.getProperty("ELASTICSEARCH_IP"), 9300)));
 
 	/**

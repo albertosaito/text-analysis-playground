@@ -1,5 +1,6 @@
 package io.vuh.text.rss.manager;
 
+import io.vuh.text.rss.model.RSSFeedList;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
 
 /**
@@ -13,5 +14,7 @@ public interface RSSArticleManager {
      * @return {@link LoadRSSResponse}
      */
     LoadRSSResponse loadRSSFeed(String url);
+
+	void loadScheduledRSSFeeds(RSSFeedList list);
 
 }

@@ -1,7 +1,7 @@
 {
 	"package":"io.vuh.text",
 	"systemProperties":{
-		"ELASTICSEARCH_IP":"localhost",
+		"ELASTICSEARCH_IP":"127.0.0.1",
 		"ignite.deployment.mode":"CONTINUOUS",
 		"ignite.grid.name":"search-client",
 		"IGNITE_HOME":"/tmp",

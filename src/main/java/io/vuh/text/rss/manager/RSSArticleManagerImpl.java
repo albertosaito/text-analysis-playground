@@ -1,6 +1,7 @@
 package io.vuh.text.rss.manager;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
 import io.vuh.text.cache.IgniteDelegate;
 import io.vuh.text.persistence.model.Article;
 import io.vuh.text.rss.RSSArticleReader;
+import io.vuh.text.rss.model.RSSFeedList;
 import io.vuh.text.rss.resource.transport.LoadRSSResponse;
 import rx.Observable;
 
@@ -54,6 +56,12 @@ public class RSSArticleManagerImpl implements RSSArticleManager {
 		}
 
 		return response;
+	}
+	
+	@Override
+	public void loadScheduledRSSFeeds(@Observes RSSFeedList list) {
+		System.out.println("Loading lists");
+		list.getUrls().forEach(url -> loadRSSFeed(url));
 	}
 
 }
