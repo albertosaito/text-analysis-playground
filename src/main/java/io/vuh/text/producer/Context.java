@@ -17,8 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class Context {
-	final Client client = new TransportClient.Builder().build().addTransportAddress(
-			new InetSocketTransportAddress(new InetSocketAddress(System.getProperty("ELASTICSEARCH_IP"), 9300)));
+	private Client client;
 
 	/**
 	 * @param injectionPoint
@@ -26,6 +25,21 @@ public class Context {
 	 */
 	@Produces
 	public Client createClient(final InjectionPoint injectionPoint) {
+	    String elasticSearchHost = null;
+	    // check if Docker links env is present...
+	    if (System.getenv("ELASTICSEARCH_1_PORT_9300_TCP_ADDR") != null) 
+		elasticSearchHost = System.getenv("ELASTICSEARCH_1_PORT_9300_TCP_ADDR");
+	    else if (System.getProperty("ELASTICSEARCH_IP") != null)
+		// read from system properties
+		elasticSearchHost = System.getenv("ELASTICSEARCH_IP");
+	    else
+		//default it to 127.0.0.1
+		elasticSearchHost = "127.0.0.1";
+		
+	    client = new TransportClient.Builder().build().addTransportAddress(
+			new InetSocketTransportAddress(new InetSocketAddress(elasticSearchHost, 9300)));
+	    
+	    
 		return client;
 	}
 
