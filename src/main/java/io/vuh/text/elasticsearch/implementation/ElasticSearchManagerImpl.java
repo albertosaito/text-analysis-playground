@@ -1,6 +1,7 @@
 package io.vuh.text.elasticsearch.implementation;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -52,6 +53,11 @@ public class ElasticSearchManagerImpl implements ElasticSearchManager {
 		article.setId(hit.getSource().get("id").toString());
 		article.setTitle(hit.getSource().get("title").toString());
 		article.setUrl(hit.getSource().get("url").toString());
+		article.setSource(hit.getSource().get("source").toString());
+		// validate value has more than 250 chars		
+		article.setText(hit.getSource().get("text").toString().trim().substring(0, 250));
+		// validate value exists and is long value
+		article.setDate(new Date(Long.valueOf(hit.getSource().get("date").toString())));
 		return article;
 	}
 }
